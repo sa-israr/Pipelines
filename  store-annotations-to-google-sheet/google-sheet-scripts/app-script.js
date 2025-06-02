@@ -1,6 +1,5 @@
 function handleSpreadsheetPost(e) {
   try {
-    Logger.log("Received POST data: " + e.postData.contents);
     const body = JSON.parse(e.postData.contents);
 
     if (body.type !== "spreadsheet" || !body.data) {
@@ -8,14 +7,14 @@ function handleSpreadsheetPost(e) {
                            .setMimeType(ContentService.MimeType.JSON);
     }
 
-    const data = body.data;
-    const columns = data.columns || [];
-    const rows = data.rows || [];
-    const sheetName = "Sheet1";
+    const payload = body.data;
+    const columns = payload.columns || [];
+    const rows = payload.rows || [];
+    const sheetName = "Sheet2";
 
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
     if (!sheet) {
-      Logger.log("Sheet not found: " + sheetName);
+      Logger.error("Sheet not found: " + sheetName);
       return ContentService.createTextOutput(JSON.stringify({ error: "Sheet not found: " + sheetName }))
                            .setMimeType(ContentService.MimeType.JSON);
     }
@@ -38,8 +37,4 @@ function handleSpreadsheetPost(e) {
     return ContentService.createTextOutput(JSON.stringify({ error: error.message }))
                          .setMimeType(ContentService.MimeType.JSON);
   }
-}
-
-function doPost(e) {
-  return handleSpreadsheetPost(e);
 }

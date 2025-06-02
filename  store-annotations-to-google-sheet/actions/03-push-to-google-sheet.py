@@ -17,8 +17,6 @@ def push_to_google_sheet(annotations, sheet_url):
         "response_text": response.text
     }
 
-
-
 def handler(event, context):
-    sheet_url = "https://script.google.com/macros/s/AKfycbxZPgzHOeyQ8DKatnvYgeDhpgA_EXTStv25DneBouzC_qAVBRBuyX4smqWTadGNB8Yojg/exec"
-    return push_to_google_sheet(context, sheet_url)
+    SHEET_ENDPOINT = event['google_sheet_endpoint']
+    return push_to_google_sheet(context, SHEET_ENDPOINT)
